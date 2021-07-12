@@ -35,3 +35,23 @@ In AmqpReceiver.php line 62:
   Library error: a SSL error occurred                         
                                                               
 ```
+
+---
+
+### Solution with HAProxy
+
+Put `MESSENGER_TRANSPORT_DSN=amqps://username:password@localhost:25671/%2f/messages?cacert=/path/to/cacert.pem`
+with appropriate data into `.env.local` file after the cloning the repo.
+
+```shell
+$ git clone https://github.com/maMykola/messenger-aws-amqps
+$ cd messenger-aws-amqps
+$ echo "MESSENGER_TRANSPORT_DSN=amqps://username:password@localhost:25671/%2f/messages?cacert=/path/to/cacert.pem" > .env.local
+$ composer install
+$ env HAPROXY_RABBITMQ_HOST=rabbitmq-host-on-aws.amazonaws.com docker-compose up -d
+$ symfony console messenger:setup
+$ symfony console app:dispatch-test-message
+$ symfony console messenger:consume async -vv
+```
+
+All works fine without connection exception.
