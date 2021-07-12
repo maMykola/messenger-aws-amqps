@@ -1,22 +1,28 @@
-# How to reproduce
+## Requirements
 
-Create `.env.local` and fill `MESSENGER_TRANSPORT_DSN` with `amqps://username:password@aws-mq.amazon.com/%2f/messages?cacert=/path/to/ca.pem`
-with appropriate data.
+* Docker
+* Composer 2.0
 
-### CA Cert paths
+Add the following line into `/etc/vhosts`:
+```
+127.0.0.1   rabbitmq.local
+```
 
-`OSX`: `/usr/local/etc/openssl@1.1/cert.pem`
+## Steps to reproduce
 
-`Linux`: `/etc/ssl/certs/ca-certificates.crt`
-
-### Steps
 ```shell
+$ git clone https://github.com/maMykola/messenger-aws-amqps
+$ cd messenger-aws-amqps
+$ composer install
+$ .ops/provision.sh
+$ docker-compose up -d
 $ symfony console messenger:setup
 $ symfony console app:dispatch-test-message
 $ symfony console messenger:consume async -vv
 ```
 
-Example output:
+## Example output
+
 ```log
 [info] App\Message\TestMessage was handled successfully (acknowledging to transport).
 
@@ -28,5 +34,4 @@ In AmqpReceiver.php line 62:
   [Symfony\Component\Messenger\Exception\TransportException]  
   Library error: a SSL error occurred                         
                                                               
-
 ```
