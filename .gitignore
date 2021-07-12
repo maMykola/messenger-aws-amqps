@@ -1,3 +1,5 @@
+!.gitkeep
+/.ops/certs/*
 
 ###> symfony/framework-bundle ###
 /.env.local

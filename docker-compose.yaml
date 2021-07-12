@@ -4,20 +4,18 @@ services:
     rabbitmq:
         image: rabbitmq:3.8-management
         ports:
-            - '4369:4369'
-            - '5672:5672'
-            - '25672:25672'
+            - '5671:5671'
             - '15671:15671'
         environment:
             - RABBITMQ_SECURE_PASSWORD=yes
-            - RABBITMQ_MANAGEMENT_SSL_CACERTFILE=/rabbitmq-certs/testca/cacert.pem
-            - RABBITMQ_MANAGEMENT_SSL_CERTFILE=/rabbitmq-certs/server/cert.pem
-            - RABBITMQ_MANAGEMENT_SSL_FAIL_IF_NO_PEER_CERT=true
-            - RABBITMQ_MANAGEMENT_SSL_KEYFILE=/rabbitmq-certs/server/key.pem
-            - RABBITMQ_MANAGEMENT_SSL_VERIFY=verify_peer
+            - RABBITMQ_SSL_CACERTFILE=/rabbitmq-certs/cert.pem
+            - RABBITMQ_SSL_CERTFILE=/rabbitmq-certs/cert.pem
+            - RABBITMQ_SSL_FAIL_IF_NO_PEER_CERT=false
+            - RABBITMQ_SSL_KEYFILE=/rabbitmq-certs/unenc.pem
+            - RABBITMQ_SSL_VERIFY=verify_none
         volumes:
             - 'rabbitmq_data:/var/lib/rabbitmq'
-            - './certs:/rabbitmq-certs'
+            - '.ops/certs:/rabbitmq-certs'
 
 volumes:
     rabbitmq_data:
