@@ -3,7 +3,7 @@
 * Docker
 * Composer 2.0
 
-Add the following line into `/etc/vhosts`:
+Add the following line into `/etc/hosts`:
 ```
 127.0.0.1   rabbitmq.local
 ```
